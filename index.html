@@ -18,6 +18,7 @@ body {
   background: #fcfbfc;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
@@ -37,7 +38,7 @@ ul { list-style: none; }
   --btn-primary-bg: #33BB33;
   --btn-primary-text: #fff;
   --btn-radius: 26px;
-  --container-max: 100vw;
+  --container-max: 100%;
   --card-radius: 12px;
   --grid-gap: 32px;
   --layout-gap: 36px;
@@ -320,7 +321,7 @@ ul { list-style: none; }
 /* ===== PRODUCT GRID ===== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--grid-gap);
 }
 
@@ -844,6 +845,7 @@ ul { list-style: none; }
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1400px) {
   :root { --grid-gap: 28px; --layout-gap: 28px; }
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 1200px) {
   .collection-layout { grid-template-columns: 1fr; }
@@ -1022,7 +1024,7 @@ ul { list-style: none; }
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="#" class="active">Peptídeos Injetáveis</a>
+    <a href="#colecao" class="active">Peptídeos Injetáveis</a>
     <a href="#contactSection">Contato</a>
   </div>
 </nav>
@@ -1033,7 +1035,7 @@ ul { list-style: none; }
 </div>
 
 <!-- PAGE TITLE -->
-<div class="page-title">
+<div class="page-title" id="colecao">
   <h1>Peptídeos Injetáveis</h1>
 </div>
 

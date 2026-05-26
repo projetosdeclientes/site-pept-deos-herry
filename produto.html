@@ -18,6 +18,7 @@ body {
   background: #fcfbfc;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
@@ -37,7 +38,7 @@ ul { list-style: none; }
   --btn-primary-bg: #33BB33;
   --btn-primary-text: #fff;
   --btn-radius: 26px;
-  --container-max: 100vw;
+  --container-max: 100%;
   --card-radius: 12px;
   --grid-gap: 32px;
   --layout-gap: 36px;
@@ -640,6 +641,7 @@ ul { list-style: none; }
   .navbar a { padding: 10px 14px; font-size: 13px; white-space: nowrap; }
   .product-detail-main { padding: 20px; gap: 24px; }
   .product-info h1 { font-size: 20px; }
+  .product-gallery { height: 320px; }
 
   .related-grid { --grid-gap: 20px; }
   .footer-features-inner { grid-template-columns: 1fr; }
@@ -650,9 +652,11 @@ ul { list-style: none; }
   .contact-form .btn-submit { width: 100%; }
 }
 @media (max-width: 480px) {
+  .product-grid { grid-template-columns: 1fr; }
   .related-grid { grid-template-columns: 1fr; --grid-gap: 16px; }
   .product-info .btn-buy { width: 100%; }
   .product-detail-main { padding: 16px; }
+  .product-gallery { height: 240px; }
   .contact-section { padding: 28px var(--section-padding); }
   .contact-info-card { padding: 16px; }
 }
