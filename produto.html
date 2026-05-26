@@ -1408,20 +1408,20 @@ function renderProduct(productId) {
 })();
 
 // ===== INIT =====
-(function() {
-  function getUrlParam(name) {
-    var match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
-    return match ? decodeURIComponent(match[1]) : null;
-  }
+function getUrlParam(name) {
+  var match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+  if (match) return decodeURIComponent(match[1]);
+  match = window.location.href.match(new RegExp('[?&]' + name + '=([^&?]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
 
-  function initPage() {
+function initProductPage() {
+  try {
     updateCartBadge();
-
     var productId = getUrlParam('id');
     if (!productId) { window.location.href = 'index.html'; return; }
     renderProduct(productId);
 
-    // Buy button
     var buyBtn = document.querySelector('.btn-buy');
     if (buyBtn) {
       buyBtn.addEventListener('click', function(e) {
@@ -1431,7 +1431,6 @@ function renderProduct(productId) {
       });
     }
 
-    // Tabs
     var tabs = document.querySelectorAll('.tab-nav button');
     tabs.forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -1442,7 +1441,6 @@ function renderProduct(productId) {
       });
     });
 
-    // Newsletter
     var nlsForm = document.querySelector('.footer-newsletter form');
     if (nlsForm) {
       nlsForm.addEventListener('submit', function(e) {
@@ -1451,14 +1449,16 @@ function renderProduct(productId) {
         if (email) { showToast('Inscrição realizada com sucesso!'); nlsForm.querySelector('input').value = ''; }
       });
     }
+  } catch(e) {
+    console.error('initProductPage error:', e);
   }
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPage);
-  } else {
-    initPage();
-  }
-})();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initProductPage);
+} else {
+  initProductPage();
+}
 
 // ===== CONTACT FORM =====
 function submitContact(e) {
