@@ -561,6 +561,111 @@ ul { list-style: none; }
   text-align: center;
 }
 
+/* ===== SEARCH BAR ===== */
+.header-search {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+.header-search input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 2px solid var(--border);
+  border-radius: 26px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  outline: none;
+  background: #f5f5f5;
+  transition: all 0.2s;
+}
+.header-search input:focus {
+  border-color: var(--accent);
+  background: #fff;
+}
+.header-search .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 200;
+  display: none;
+}
+.search-dropdown.active { display: block; }
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: #f0f8ff; }
+.search-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+.search-item-info { flex: 1; min-width: 0; }
+.search-item-info .si-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+.search-item-info .si-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+.search-no-result {
+  padding: 20px 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.search-no-result strong { color: #333; }
+
+/* ===== WHATSAPP CARD BUTTON ===== */
+.product-card-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  width: fit-content;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(37, 211, 102, 0.2);
+}
+.product-card-whatsapp:hover { filter: brightness(1.1); box-shadow: 0 3px 12px rgba(37, 211, 102, 0.35); }
+.product-card-whatsapp i { font-size: 15px; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1400px) {
   :root { --grid-gap: 28px; --layout-gap: 28px; }
@@ -581,8 +686,9 @@ ul { list-style: none; }
   :root { --section-padding: 16px; --grid-gap: 20px; }
   .topbar-inner { gap: 8px; font-size: 11px; }
   .topbar-item { white-space: normal; }
-  .header-inner { gap: 10px; }
+  .header-inner { gap: 10px; flex-wrap: wrap; }
   .header-logo { font-size: 18px; }
+  .header-search { order: 3; max-width: 100%; flex: 0 0 100%; }
   .navbar-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .navbar a { padding: 10px 14px; font-size: 13px; white-space: nowrap; }
   .footer-features-inner { grid-template-columns: 1fr; }
@@ -661,6 +767,11 @@ ul { list-style: none; }
 <header class="header">
   <div class="header-inner">
     <a href="/" class="header-logo"><i class="fas fa-flask"></i></a>
+    <div class="header-search">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="searchInput" placeholder="Buscar peptídeos..." autocomplete="off">
+      <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
     <div class="header-spacer"></div>
   </div>
 </header>
@@ -698,6 +809,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">Tirzepatida</div>
           <div class="product-card-sub">60 mg — Peptídeo Sintético Injetável</div>
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20Tirzepatida." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -710,7 +822,8 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">Tesamorelin</div>
           <div class="product-card-sub">15 mg — Peptídeo Sintético Injetável</div>
-                 </div>
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20Tesamorelin." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
+        </div>
       </div>
 
       <!-- 3 - CJC-1295 + Ipamorelin -->
@@ -721,6 +834,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">CJC-1295 + Ipamorelin</div>
           <div class="product-card-sub">5 mg + 5 mg — Peptídeos Sintéticos Injetáveis</div>
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20CJC-1295%20%2B%20Ipamorelin." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -732,7 +846,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">MOTS-C</div>
           <div class="product-card-sub">40 mg — Mitochondrial-Derived Peptide</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20MOTS-C." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -744,7 +858,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">Ipamorelin</div>
           <div class="product-card-sub">10 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20Ipamorelin." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -756,7 +870,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">BPC-157</div>
           <div class="product-card-sub">10 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20BPC-157." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -768,7 +882,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">TB-500</div>
           <div class="product-card-sub">10 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20TB-500." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -781,7 +895,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">GHK-Cu</div>
           <div class="product-card-sub">100 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20GHK-Cu." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -793,7 +907,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">KPV</div>
           <div class="product-card-sub">5 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20KPV." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -805,7 +919,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">5-Amino-1MQ</div>
           <div class="product-card-sub">50 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%205-Amino-1MQ." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -818,7 +932,7 @@ ul { list-style: none; }
         <div class="product-card-body">
           <div class="product-card-name">PT-141 (Bremelanotide)</div>
           <div class="product-card-sub">10 mg — Peptídeo Sintético Injetável</div>
-          
+          <a href="https://wa.me/5511999990000?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20PT-141." target="_blank" class="product-card-whatsapp" onclick="event.stopPropagation()"><i class="fab fa-whatsapp"></i> Consultar</a>
         </div>
       </div>
 
@@ -1000,6 +1114,72 @@ document.addEventListener('DOMContentLoaded', function() {
       if (email) { alert('Inscrição realizada com sucesso!'); this.querySelector('input').value = ''; }
     });
   }
+
+  // ===== SEARCH =====
+  var searchProducts = [
+    { slug: "tirzepatida", name: "Tirzepatida", sub: "60 mg — Peptídeo Sintético Injetável", img: "mplt8a41-TIRZEPATIDA.jpeg" },
+    { slug: "tesamorelin", name: "Tesamorelin", sub: "15 mg — Peptídeo Sintético Injetável", img: "mplt8a3o-TESAMORELIN.jpeg" },
+    { slug: "cjc-1295-ipamorelin", name: "CJC-1295 + Ipamorelin", sub: "5 mg + 5 mg — Peptídeos Sintéticos Injetáveis", img: "mplt8a1d-CJC-1295_IPAMORELINA.jpeg" },
+    { slug: "mots-c", name: "MOTS-C", sub: "40 mg — Mitochondrial-Derived Peptide", img: "mplt8a2s-MOTS-C.jpeg" },
+    { slug: "ipamorelin", name: "Ipamorelin", sub: "10 mg — Peptídeo Sintético Injetável", img: "mplt8a29-IPAMORELINA.jpeg" },
+    { slug: "bpc-157", name: "BPC-157", sub: "10 mg — Peptídeo Sintético Injetável", img: "mplt8a11-BPC-157.jpeg" },
+    { slug: "tb-500", name: "TB-500", sub: "10 mg — Peptídeo Sintético Injetável", img: "mplt8a3e-TB-500.jpeg" },
+    { slug: "ghk-cu", name: "GHK-Cu", sub: "100 mg — Peptídeo Sintético Injetável", img: "mplt8a1o-GHK-Cu.jpeg" },
+    { slug: "kpv", name: "KPV", sub: "5 mg — Peptídeo Sintético Injetável", img: "mplt8a2i-KPV-_LYS-PRO-VAL_.jpeg" },
+    { slug: "5-amino-1mq", name: "5-Amino-1MQ", sub: "50 mg — Peptídeo Sintético Injetável", img: "mplt8a0q-5-AMINO-1MQ.jpeg" },
+    { slug: "pt-141", name: "PT-141 (Bremelanotide)", sub: "10 mg — Peptídeo Sintético Injetável", img: "mplt8a33-PT-141_BREMELANOTIDE_.jpeg" }
+  ];
+
+  var searchInput = document.getElementById('searchInput');
+  var searchDropdown = document.getElementById('searchDropdown');
+
+  searchInput.addEventListener('input', function() {
+    var q = this.value.trim().toLowerCase();
+    if (!q) { searchDropdown.classList.remove('active'); return; }
+
+    var results = searchProducts.filter(function(p) {
+      return p.name.toLowerCase().indexOf(q) !== -1 || p.slug.indexOf(q) !== -1;
+    });
+
+    if (results.length === 0) {
+      var fallback = searchProducts.filter(function(p) {
+        var terms = q.split(/\s+/);
+        return terms.some(function(t) { return p.name.toLowerCase().indexOf(t) !== -1 || p.slug.indexOf(t) !== -1; });
+      });
+      var html = '<div class="search-no-result">Nenhum peptídeo encontrado para <strong>"' + this.value.trim() + '"</strong>';
+      if (fallback.length > 0) {
+        html += '<div style="margin-top:10px;font-size:13px;color:#888;">Talvez você procure por:</div></div>';
+        html += fallback.slice(0, 3).map(function(p) {
+          return '<div class="search-item" data-slug="' + p.slug + '"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy"><div class="search-item-info"><div class="si-name">' + p.name + '</div><div class="si-sub">' + p.sub + '</div></div></div>';
+        }).join('');
+      } else {
+        html += '</div>';
+      }
+      searchDropdown.innerHTML = html;
+      searchDropdown.classList.add('active');
+      return;
+    }
+
+    var html = results.map(function(p) {
+      return '<div class="search-item" data-slug="' + p.slug + '"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy"><div class="search-item-info"><div class="si-name">' + p.name + '</div><div class="si-sub">' + p.sub + '</div></div></div>';
+    }).join('');
+    searchDropdown.innerHTML = html;
+    searchDropdown.classList.add('active');
+  });
+
+  searchDropdown.addEventListener('click', function(e) {
+    var item = e.target.closest('.search-item');
+    if (item) {
+      var slug = item.getAttribute('data-slug');
+      if (slug) { window.location.href = '/' + slug; }
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.header-search')) {
+      searchDropdown.classList.remove('active');
+    }
+  });
 });
 </script>
 
