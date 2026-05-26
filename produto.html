@@ -1,0 +1,1473 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  color: #333;
+  background: #fcfbfc;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; }
+
+:root {
+  --accent: #21adce;
+  --accent-rgb: 33, 173, 206;
+  --accent-dark: #16768c;
+  --bg: #fcfbfc;
+  --surface: #fff;
+  --fg: #333;
+  --muted: #8c8c8c;
+  --border: #e1e3e4;
+  --footer-bg: #1c3168;
+  --footer-text: #fff;
+  --btn-primary-bg: #33BB33;
+  --btn-primary-text: #fff;
+  --btn-radius: 26px;
+  --container-max: 100vw;
+  --card-radius: 12px;
+  --grid-gap: 32px;
+  --layout-gap: 36px;
+  --section-padding: 24px;
+}
+
+/* Shared header/footer styles (same as index) */
+.topbar {
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 0;
+}
+.topbar-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--section-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.topbar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.topbar-item i { font-size: 14px; color: rgba(255,255,255,0.9); }
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: var(--container-max); margin: 0 auto;
+  padding: 12px var(--section-padding); display: flex; align-items: center; gap: 20px;
+}
+.header-logo { font-size: 22px; font-weight: 700; color: var(--accent); white-space: nowrap; flex-shrink: 0; }
+.header-logo span { color: #333; }
+.header-search { flex: 1; max-width: 520px; position: relative; }
+.header-search input {
+  width: 100%; padding: 10px 16px 10px 42px;
+  border: 2px solid var(--border); border-radius: 26px;
+  font-family: 'Poppins', sans-serif; font-size: 14px;
+  background: #f5f5f5; outline: none; transition: border-color 0.2s;
+}
+.header-search input:focus { border-color: var(--accent); background: #fff; }
+.header-search i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+.header-actions { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.header-actions a { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #333; transition: color 0.2s; }
+.header-actions a:hover { color: var(--accent); }
+.header-actions i { font-size: 18px; }
+.cart-link { position: relative; }
+.cart-count { position: absolute; top: -8px; right: -8px; background: var(--accent); color: #fff; font-size: 10px; font-weight: 600; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.navbar { background: #fff; border-top: 1px solid var(--border); }
+.navbar-inner { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--section-padding); display: flex; gap: 0; }
+.navbar a { display: block; padding: 12px 20px; font-size: 14px; font-weight: 500; color: #333; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.navbar a:hover, .navbar a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.breadcrumb {
+  max-width: var(--container-max); margin: 16px auto 0; padding: 0 var(--section-padding);
+  font-size: 13px; color: var(--muted);
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--accent); }
+
+/* ===== PRODUCT DETAIL ===== */
+.product-detail {
+  max-width: var(--container-max);
+  margin: 24px auto;
+  padding: 0 var(--section-padding) 48px;
+}
+.product-detail-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 36px;
+}
+.product-gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 500px;
+}
+.product-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.product-info { display: flex; flex-direction: column; gap: 16px; }
+.product-info h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.2;
+}
+.product-info .product-sub {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.product-info .product-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+.product-info .product-benefits h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.product-info .product-benefits ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+.product-info .product-benefits li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 4px;
+}
+.product-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.product-pricing .badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.product-info .btn-buy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: none;
+  border-radius: var(--btn-radius);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+  width: fit-content;
+  min-width: 200px;
+}
+.product-info .btn-buy:hover { filter: brightness(1.15); box-shadow: 0 4px 12px rgba(51,187,51,0.3); transform: translateY(-1px); }
+.product-info .btn-buy:active { transform: translateY(0); }
+.product-info .btn-buy i { font-size: 18px; }
+.product-info .product-sku {
+  font-size: 12px;
+  color: var(--muted);
+}
+.product-badge-queima {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #ff6b35, #ff3d00);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 12px 4px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  gap: 6px;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 2px 6px rgba(255, 61, 0, 0.3);
+}
+.product-badge-queima .queima-number {
+  font-size: 13px;
+  font-weight: 800;
+  animation: pulse-urgent 1s ease-in-out infinite;
+}
+@keyframes pulse-urgent {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* ===== TABS ===== */
+.product-tabs {
+  margin-top: 30px;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: #fafafa;
+}
+.tab-nav button {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  background: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.tab-nav button:hover { color: #333; }
+.tab-nav button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: #fff;
+}
+.tab-content { padding: 24px; display: none; }
+.tab-content.active { display: block; }
+.tab-content h3 { font-size: 16px; margin-bottom: 12px; }
+.tab-content p { font-size: 14px; line-height: 1.7; color: #555; margin-bottom: 12px; }
+.tab-content ul { list-style: disc; padding-left: 20px; }
+.tab-content ul li { font-size: 14px; line-height: 1.7; color: #555; margin-bottom: 6px; }
+.faq-item { margin-bottom: 16px; }
+.faq-item h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.faq-item p { font-size: 14px; color: #555; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonial-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.testimonial-card .stars { color: #f5a623; font-size: 14px; margin-bottom: 6px; }
+.testimonial-card p { font-size: 14px; color: #555; line-height: 1.6; }
+.testimonial-card .author { font-size: 13px; font-weight: 600; margin-top: 8px; color: #333; }
+
+/* ===== RELATED ===== */
+.related-section { margin-top: 30px; }
+.related-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--accent);
+  display: inline-block;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gap);
+}
+.related-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.related-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.related-card img { width: 100%; aspect-ratio: 3/2; object-fit: contain; padding: 12px; background: #fafafa; }
+.related-card-body { padding: 0 12px 12px; }
+.related-card-body h4 { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+
+
+/* ===== SEARCH DROPDOWN ===== */
+.search-results {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 300;
+  display: none;
+  padding: 8px;
+}
+.search-results.active { display: block; }
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.search-item:hover { background: #f5f8ff; }
+.search-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fafafa;
+}
+.search-item span { font-size: 13px; color: #333; flex: 1; }
+
+.search-no-match {
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.search-no-match strong { color: #333; }
+.search-suggestion {
+  padding: 8px 12px 0;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ===== CONTACT SECTION ===== */
+.contact-section {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 60px var(--section-padding);
+}
+.contact-section h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.contact-section .contact-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.contact-form label { font-size: 14px; font-weight: 500; color: #333; }
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fafafa;
+}
+.contact-form input:focus,
+.contact-form textarea:focus { border-color: var(--accent); background: #fff; }
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form .btn-submit {
+  padding: 14px 32px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: fit-content;
+}
+.contact-form .btn-submit:hover { background: var(--accent-dark); }
+.contact-info { display: flex; flex-direction: column; gap: 24px; }
+.contact-info-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.contact-info-card i {
+  font-size: 22px;
+  color: var(--accent);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--accent-rgb), 0.08);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.contact-info-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.contact-info-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.contact-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  width: auto;
+  max-width: 100%;
+  align-self: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+}
+.contact-whatsapp:hover { filter: brightness(1.1); box-shadow: 0 3px 12px rgba(37, 211, 102, 0.35); }
+.contact-whatsapp i { font-size: 18px; flex-shrink: 0; }
+
+/* ===== TOAST ===== */
+.cart-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #333;
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.4s;
+  max-width: 360px;
+}
+.cart-toast.show { transform: translateY(0); opacity: 1; }
+.cart-toast i { font-size: 18px; color: #33BB33; }
+
+/* ===== GLOBAL FAQ ===== */
+.faq-section {
+  background: #fff;
+  padding: 60px var(--section-padding);
+}
+.faq-section-inner {
+  max-width: min(98vw, 1000px);
+  margin: 0 auto;
+}
+.faq-section h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.faq-section .faq-sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+}
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  gap: 16px;
+  user-select: none;
+}
+.faq-question i {
+  font-size: 14px;
+  color: var(--accent);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-question i {
+  transform: rotate(180deg);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.faq-item.open .faq-answer {
+  max-height: 400px;
+  padding-top: 12px;
+}
+
+/* ===== FOOTER (same as index) ===== */
+.footer-features {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 40px var(--section-padding);
+}
+.footer-features-inner {
+  max-width: var(--container-max); margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+}
+.footer-feature { text-align: center; padding: 16px; }
+.footer-feature i { font-size: 28px; color: var(--accent); margin-bottom: 10px; }
+.footer-feature h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.footer-feature p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.footer { background: var(--footer-bg); color: var(--footer-text); padding: 48px var(--section-padding) 0; }
+.footer-inner {
+  max-width: var(--container-max); margin: 0 auto;
+  display: grid; grid-template-columns: 1.3fr 1fr 1.2fr 1.4fr; gap: 32px;
+  padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 14px; color: #fff; }
+.footer-col p { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); }
+.footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 8px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent); }
+.footer-social { display: flex; gap: 12px; margin-top: 12px; }
+.footer-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); color: #fff; font-size: 16px; transition: background 0.2s;
+}
+.footer-social a:hover { background: var(--accent); }
+.footer-newsletter p { margin-bottom: 12px; font-size: 13px; }
+.footer-newsletter form { display: flex; gap: 8px; }
+.footer-newsletter input {
+  flex: 1; padding: 10px 14px; border: none;
+  border-radius: var(--btn-radius); font-family: 'Poppins', sans-serif; font-size: 13px; outline: none;
+}
+.footer-newsletter button {
+  padding: 10px 20px; background: var(--accent); color: #fff; border: none;
+  border-radius: var(--btn-radius); font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.footer-newsletter button:hover { background: var(--accent-dark); }
+.footer-bottom {
+  max-width: var(--container-max); margin: 0 auto; padding: 16px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; color: rgba(255,255,255,0.6); flex-wrap: wrap; gap: 8px;
+}
+.footer-payment i { font-size: 28px; margin-left: 8px; color: rgba(255,255,255,0.5); }
+.footer-copy {
+  max-width: var(--container-max); margin: 0 auto; padding: 12px 0 24px;
+  font-size: 11px; color: rgba(255,255,255,0.45); text-align: center;
+}
+
+@media (max-width: 1400px) {
+  :root { --grid-gap: 28px; --layout-gap: 28px; }
+  .related-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 1200px) {
+  .product-detail-main { grid-template-columns: 1fr; gap: 28px; }
+  .product-gallery { max-width: 100%; }
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-features-inner { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .tab-nav { overflow-x: auto; }
+  .tab-nav button { white-space: nowrap; flex: none; padding: 12px 16px; }
+}
+@media (max-width: 900px) {
+  .related-grid { --grid-gap: 24px; }
+  .related-card-body h4 { font-size: 13px; }
+
+}
+@media (max-width: 768px) {
+  :root { --section-padding: 16px; --grid-gap: 20px; }
+  .header-logo { font-size: 18px; }
+  .header-search input { padding: 8px 12px 8px 36px; }
+  .header-actions a span { display: none; }
+  .navbar-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .navbar a { padding: 10px 14px; font-size: 13px; white-space: nowrap; }
+  .product-detail-main { padding: 20px; gap: 24px; }
+  .product-info h1 { font-size: 20px; }
+
+  .related-grid { --grid-gap: 20px; }
+  .footer-features-inner { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .contact-section { padding: 40px var(--section-padding); }
+  .contact-section h2 { font-size: 22px; }
+  .contact-form .btn-submit { width: 100%; }
+}
+@media (max-width: 480px) {
+  .related-grid { grid-template-columns: 1fr; --grid-gap: 16px; }
+  .product-info .btn-buy { width: 100%; }
+  .product-detail-main { padding: 16px; }
+  .contact-section { padding: 28px var(--section-padding); }
+  .contact-info-card { padding: 16px; }
+}
+
+/* ===== DESKTOP UPSCALE ===== */
+@media (min-width: 1440px) {
+  :root { --section-padding: 32px; --grid-gap: 36px; --layout-gap: 40px; }
+  .topbar { font-size: 14px; padding: 10px 0; }
+  .topbar-inner { gap: 40px; }
+  .header-inner { padding: 16px var(--section-padding); }
+  .header-search { max-width: 600px; }
+  .header-search input { padding: 12px 18px 12px 46px; font-size: 15px; }
+  .navbar a { padding: 14px 24px; font-size: 15px; }
+  .product-detail { margin: 40px auto; }
+  .product-detail-main { padding: 44px; gap: 48px; }
+  .product-info h1 { font-size: 30px; }
+
+  .product-info .product-desc { font-size: 16px; }
+  .product-info .btn-buy { padding: 16px 40px; font-size: 17px; min-width: 240px; }
+  .related-card img { padding: 18px; }
+  .related-card-body { padding: 0 18px 18px; }
+  .related-card-body h4 { font-size: 15px; }
+
+  .tab-nav button { padding: 16px 24px; font-size: 15px; }
+  .tab-content { padding: 28px; }
+  .footer-features { padding: 40px var(--section-padding); }
+  .footer { padding: 48px var(--section-padding) 0; }
+}
+
+@media (min-width: 1600px) {
+  :root { --section-padding: 40px; --grid-gap: 40px; --layout-gap: 48px; }
+  .topbar-inner { gap: 48px; }
+  .header-inner { padding: 16px var(--section-padding); }
+  .navbar-inner { padding: 0 var(--section-padding); }
+  .breadcrumb { padding: 0 var(--section-padding); }
+  .product-detail { padding: 0 var(--section-padding) 48px; }
+  .product-detail-main { padding: 52px; gap: 48px; }
+  .product-info h1 { font-size: 34px; }
+
+  .product-info .product-desc { font-size: 17px; }
+  .related-card img { padding: 16px; }
+  .related-card-body { padding: 0 16px 16px; }
+  .related-card-body h4 { font-size: 16px; }
+
+  .tab-nav button { padding: 18px 28px; font-size: 15px; }
+  .tab-content { padding: 32px; }
+  .product-info .btn-buy { padding: 18px 44px; font-size: 18px; min-width: 260px; }
+}
+
+@media (min-width: 1920px) {
+  :root { --section-padding: 48px; --grid-gap: 44px; --layout-gap: 56px; }
+  .topbar-inner { gap: 56px; }
+  .header-inner { padding: 18px var(--section-padding); }
+  .navbar-inner { padding: 0 var(--section-padding); }
+  .breadcrumb { padding: 0 var(--section-padding); }
+  .product-detail { padding: 0 var(--section-padding) 56px; }
+  .product-detail-main { padding: 60px; gap: 56px; }
+  .product-info h1 { font-size: 38px; }
+
+  .product-info .product-desc { font-size: 18px; }
+  .related-card img { padding: 20px; }
+  .related-card-body { padding: 0 20px 20px; }
+  .tab-nav button { padding: 20px 32px; font-size: 16px; }
+  .tab-content { padding: 36px; }
+  .product-info .btn-buy { padding: 20px 48px; font-size: 18px; min-width: 280px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-item"><i class="fab fa-whatsapp"></i> Garanta já no WhatsApp</span>
+    <span class="topbar-item"><i class="fas fa-truck"></i> Envio rápido para todo o Brasil</span>
+    <span class="topbar-item"><i class="fas fa-heart"></i> Satisfação garantida ou seu dinheiro de volta</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo"><i class="fas fa-flask"></i></a>
+    <div class="header-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="O que você está buscando?">
+    </div>
+    <div class="header-actions">
+      <a href="#" class="cart-link">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html#colecao" class="active">Peptídeos Injetáveis</a>
+    <a href="index.html#contactSection">Contato</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Peptídeos Injetáveis</a>
+  <span> &gt; </span>
+  <span id="breadcrumbName">Produto</span>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div class="product-detail">
+  <div class="product-detail-main" id="productDetail">
+    <div class="product-gallery" id="productGallery">
+      <img id="productImage" src="" alt="Produto">
+      <div class="product-badge-queima" id="productBadge"><span>Queima de estoque</span><span class="queima-number">-</span></div>
+    </div>
+    <div class="product-info" id="productInfo">
+      <h1 id="productName">---</h1>
+      <div class="product-sub" id="productSub">---</div>
+      <div class="product-desc" id="productDesc">---</div>
+      <div class="product-benefits">
+        <h3>Benefícios</h3>
+        <ul id="benefitsList"></ul>
+      </div>
+      <button class="btn-buy"><i class="fas fa-shopping-bag"></i> Comprar agora</button>
+      <div class="product-sku" id="productSku"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="product-tabs">
+    <div class="tab-nav">
+      <button class="active" data-tab="desc">Descrição</button>
+      <button data-tab="faq">Perguntas Frequentes</button>
+      <button data-tab="reviews">Depoimentos</button>
+    </div>
+    <div class="tab-content active" id="tabDesc">
+      <h3>Detalhes do Produto</h3>
+      <div id="tabDescContent"></div>
+    </div>
+    <div class="tab-content" id="tabFaq">
+      <h3>Perguntas Frequentes</h3>
+      <div id="faqContent"></div>
+    </div>
+    <div class="tab-content" id="tabReviews">
+      <h3>O que nossos clientes dizem</h3>
+      <div id="reviewsContent"></div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <div class="related-section">
+    <h2>Produtos Relacionados</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div class="contact-section" id="contactSection">
+  <h2>Fale Conosco</h2>
+  <p class="contact-sub">Tire suas dúvidas, peça orientação ou entre em contato com nossa equipe.</p>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-form">
+        <label>Seu nome</label>
+        <input type="text" id="contactName" placeholder="Digite seu nome completo" required>
+        <label>E-mail</label>
+        <input type="email" id="contactEmail" placeholder="seu@email.com" required>
+        <label>Telefone (opcional)</label>
+        <input type="tel" id="contactPhone" placeholder="(11) 99999-0000">
+        <label>Mensagem</label>
+        <textarea id="contactMsg" placeholder="Como podemos ajudar?" required></textarea>
+        <button class="btn-submit" onclick="submitContact(event)"><i class="fas fa-paper-plane"></i> Enviar mensagem</button>
+      </div>
+    </div>
+    <div class="contact-info">
+      <div class="contact-info-card">
+        <i class="fas fa-clock"></i>
+        <div>
+          <h4>Horário de Atendimento</h4>
+          <p>Seg a Sex: 8h às 18h | Sáb: 8h às 12h</p>
+        </div>
+      </div>
+      <a href="https://wa.me/5511999990000?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20peptídeos." target="_blank" class="contact-whatsapp">
+        <i class="fab fa-whatsapp"></i> Fale pelo WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- GLOBAL FAQ -->
+<section class="faq-section" id="faq-global">
+  <div class="faq-section-inner">
+    <h2>Perguntas Frequentes</h2>
+    <p class="faq-sub">Tire suas dúvidas sobre peptídeos, compras e envio.</p>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>O que são peptídeos injetáveis?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">Peptídeos são cadeias curtas de aminoácidos que atuam como sinalizadores celulares. Quando administrados por via injetável, eles estimulam processos naturais do corpo — como regeneração muscular, queima de gordura, produção de colágeno e regulação do apetite — de forma direcionada e eficiente.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Quanto tempo leva para ver resultados?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">Os primeiros resultados costumam aparecer entre 7 e 21 dias de uso contínuo, dependendo do peptídeo e das condições individuais. Efeitos mais expressivos são observados após 30 a 60 dias de protocolo.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Como funciona o envio?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">Enviamos para todo o Brasil via Correios (PAC ou Sedex). O código de rastreio é enviado no e-mail em até 2 dias úteis após a confirmação do pagamento. Prazo médio de entrega: 3 a 10 dias úteis, dependendo da região.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Quais formas de pagamento são aceitas?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">Aceitamos cartões de crédito (Visa, Mastercard, Amex) em até 12x, boleto bancário e PIX. A compra é processada via Mercado Pago com toda a segurança.</div>
+    </div>
+
+
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Preciso de acompanhamento durante o uso?</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">Sim. Acompanhamento médico periódico é essencial para ajustar doses, monitorar resultados e garantir que o protocolo esteja alinhado com seus objetivos de saúde.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER FEATURES -->
+<div class="footer-features">
+  <div class="footer-features-inner">
+    <div class="footer-feature">
+      <i class="fas fa-truck"></i>
+      <h4>Envio Rápido</h4>
+      <p>Você receberá o código de rastreio em até 2 dias após a confirmação do pedido.</p>
+    </div>
+    <div class="footer-feature">
+      <i class="fas fa-smile"></i>
+      <h4>Satisfação ou Reembolso</h4>
+      <p>Caso não fique satisfeito, devolvemos seu dinheiro. Faça os exames e avalie.</p>
+    </div>
+    <div class="footer-feature">
+      <i class="fas fa-headset"></i>
+      <h4>Suporte Profissional</h4>
+      <p>Equipe de suporte de extrema qualidade para te atender todos os dias da semana.</p>
+    </div>
+    <div class="footer-feature">
+      <i class="fas fa-lock"></i>
+      <h4>Compra Segura</h4>
+      <p>Aceitamos Cartão de Crédito e Boleto Bancário. Via Mercado Pago.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>Sobre NÓS</h4>
+      <p>Lideramos o cenário de peptídeos e saúde regenerativa, destacando-nos pela segurança, qualidade, eficácia e responsabilidade.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Ajuda</h4>
+      <a href="#faq-global">Perguntas Frequentes</a>
+      <a href="#contato">Fale Conosco</a>
+      <a href="#faq-global">Sobre Nós</a>
+      <a href="#faq-global">Como Comprar</a>
+      <a href="#faq-global">Trocas e Devoluções</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <p><strong>Telefone:</strong> (11) 99999-0000</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Newsletter</h4>
+      <p>Receba nossas ofertas e novidades!</p>
+      <form>
+        <input type="email" placeholder="Seu e-mail" required>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 — Todos os direitos reservados.</span>
+    <div class="footer-payment">
+      <i class="fab fa-cc-visa"></i>
+      <i class="fab fa-cc-mastercard"></i>
+      <i class="fab fa-cc-amex"></i>
+      <i class="fab fa-pix"></i>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+// ===== CART SYSTEM =====
+function getCartCount() { return parseInt(localStorage.getItem('cartCount') || '0'); }
+function setCartCount(n) { localStorage.setItem('cartCount', n); updateCartBadge(); }
+function updateCartBadge() {
+  var badges = document.querySelectorAll('.cart-count');
+  badges.forEach(function(b) { b.textContent = getCartCount(); });
+}
+function addToCart(name, id) {
+  var count = getCartCount() + 1;
+  setCartCount(count);
+  showToast(name + ' adicionado ao carrinho!');
+}
+
+function showToast(msg) {
+  var toast = document.getElementById('cartToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'cartToast';
+    toast.className = 'cart-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = '<i class="fas fa-check-circle"></i> ' + msg;
+  toast.classList.add('show');
+  clearTimeout(toast._hide);
+  toast._hide = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+// ===== PRODUCT DATA =====
+var products = [
+  {
+    id: 1,
+    name: "Tirzepatida",
+    sub: "60 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a41-TIRZEPATIDA.jpeg",
+    discount: "Restam 2",
+    desc: "Uma das estratégias mais modernas para emagrecer com qualidade. Age diretamente nos sinais de fome do corpo, fazendo você sentir satisfação mais rápido e por mais tempo — sem precisar de força de vontade extra. Uma aplicação por semana e sua relação com a comida muda de vez.",
+    benefits: [
+      "Bate o freio na fome: você come menos sem se sentir privado",
+      "Acaba com a vontade de beliscar ou comer por ansiedade",
+      "Ajuda o corpo a usar a gordura acumulada como energia",
+      "Mantém o açúcar no sangue estável — tchau, picos de energia",
+      "Uma aplicação por semana, super prático"
+    ],
+    longDesc: "A Tirzepatida é um peptídeo dual que age em dois receptores relacionados à saciedade e ao metabolismo (GLP-1 e GIP), promovendo redução do apetite, controle da compulsão alimentar e melhora do controle glicêmico de forma sustentável. Protocolo inicial com 2,5 mg/semana, com ajuste progressivo conforme avaliação médica. Frasco de 60 mg — uso subcutâneo semanal, com pureza 99% HPLC.",
+    faq: [
+      { q: "Funciona mesmo sem fazer dieta?", a: "Funciona melhor com alimentação equilibrada, mas o próprio peptídeo já reduz a fome naturalmente — o que facilita muito as escolhas do dia a dia." },
+      { q: "Vou sentir enjoo?", a: "Alguns sentem leve enjoo nas primeiras semanas, especialmente no início. Por isso a dose começa baixa e vai aumentando gradualmente conforme sua tolerância." },
+      { q: "Por quanto tempo preciso usar?", a: "O protocolo é individualizado — depende do seu objetivo, resposta e acompanhamento médico." }
+    ],
+    reviews: [
+      { text: "Finalmente um produto que me ajuda a controlar a ansiedade por comida. Recomendo!", author: "Mariana S.", stars: 5 },
+      { text: "Perdi 4kg no primeiro mês sem passar fome. Incrível!", author: "Carlos A.", stars: 5 }
+    ]
+  },
+  {
+    id: 2,
+    name: "Tesamorelin",
+    sub: "15 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a3o-TESAMORELIN.jpeg",
+    discount: "Apenas 4",
+    desc: "Especialista em gordura visceral — aquela que fica 'por dentro', ao redor dos órgãos, e que é mais difícil de eliminar. Estimula o próprio organismo a produzir mais GH (hormônio do crescimento) de forma natural. Usado antes de dormir, sem atrapalhar a rotina.",
+    benefits: [
+      "Reduz a gordura difícil da barriga — a visceral, que fica por dentro",
+      "Melhora a composição corporal: menos gordura, mais definição",
+      "Faz o corpo liberar mais GH do jeito certo, sem artifícios",
+      "Acelera a recuperação geral do metabolismo",
+      "Aplicação diária noturna, simples e prática"
+    ],
+    longDesc: "A Tesamorelin é um análogo do GHRH que estimula fisiologicamente a liberação de GH pela hipófise. Utilizada em protocolos avançados de composição corporal, longevidade e redução de gordura visceral. Dose usual: 1 a 2 mg/dia antes de dormir, por 8 a 12 semanas. Frasco de 15 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Qual a diferença entre gordura visceral e a de fora?", a: "A visceral fica entre os órgãos, na barriga mais 'dura'. É mais perigosa para saúde e mais resistente à dieta comum. A Tesamorelin foca exatamente nessa." },
+      { q: "Preciso tomar todo dia?", a: "Sim, é de uso diário, preferencialmente à noite antes de dormir, para aproveitar o pico natural de GH que acontece durante o sono." },
+      { q: "Posso combinar com outros peptídeos?", a: "Sim, é frequentemente combinada com outros protocolos. Sempre com orientação médica para montar o protocolo certo para você." }
+    ],
+    reviews: [
+      { text: "A pochete que me acompanhava há anos finalmente está indo embora!", author: "Rafael M.", stars: 5 },
+      { text: "3 semanas de uso e já vejo diferença no abdômen inferior.", author: "Lucas F.", stars: 4 }
+    ]
+  },
+  {
+    id: 3,
+    name: "CJC-1295 + Ipamorelin",
+    sub: "5 mg + 5 mg — Peptídeos Sintéticos Injetáveis",
+    image: "mplt8a1d-CJC-1295_IPAMORELINA.jpeg",
+    discount: "",
+    desc: "Dupla famosa no mundo dos peptídeos. Juntos, estimulam o organismo a liberar mais GH (hormônio do crescimento) de forma natural e controlada — sem os riscos de injetar GH direto. Resultado: mais recuperação, melhor sono e composição corporal melhorada.",
+    benefits: [
+      "Estimula o GH do seu próprio corpo, de forma segura",
+      "Acelera a recuperação pós-treino",
+      "Melhora a qualidade do sono — acorde mais descansado",
+      "Ajuda na definição muscular e redução de gordura"
+    ],
+    longDesc: "O CJC-1295 prolonga a ação do GHRH natural, enquanto o Ipamorelin estimula a liberação pulsátil de GH pela hipófise. Juntos criam um pico de GH mais potente e fisiológico. Dose usual: 200 a 300 mcg de cada, 1 a 2x ao dia, em jejum ou antes de dormir. Frasco combinado 5 mg + 5 mg, uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Por que tomar os dois juntos?", a: "Eles atuam por mecanismos diferentes e se complementam: juntos criam um pico de GH mais forte e mais parecido com o natural do corpo." },
+      { q: "Qual o melhor horário?", a: "Em jejum ou antes de dormir — evitando refeições próximas, já que a insulina pode bloquear o efeito." },
+      { q: "Quanto tempo para sentir resultado?", a: "Melhora do sono geralmente é percebida em poucas semanas. Composição corporal em 8 a 12 semanas de uso contínuo." }
+    ],
+    reviews: [
+      { text: "Sinto muito mais disposição e meu metabolismo despertou!", author: "Juliana R.", stars: 5 },
+      { text: "Sono melhorou na primeira semana. Resultado no corpo depois do segundo mês.", author: "Fernando P.", stars: 4 }
+    ]
+  },
+  {
+    id: 4,
+    name: "MOTS-C",
+    sub: "40 mg — Mitochondrial-Derived Peptide",
+    image: "mplt8a2s-MOTS-C.jpeg",
+    discount: "",
+    desc: "Cansaço crônico, preguiça, falta de gás? O MOTS-C age nas mitocôndrias — as usinas de energia das suas células. O resultado é disposição do início ao fim do dia, sem cafeína e sem crash. Ideal para quem quer mais energia e melhor performance.",
+    benefits: [
+      "Ativa as mitocôndrias — as usinas de energia das suas células",
+      "Combate o cansaço e melhora a disposição",
+      "Suporte metabólico inteligente",
+      "Complementa protocolos de emagrecimento e performance"
+    ],
+    longDesc: "O MOTS-C é um peptídeo derivado do DNA mitocondrial que atua regulando o metabolismo energético celular. Estimula a via AMPK, melhora a sensibilidade à insulina e otimiza a queima de gordura como combustível. Dose usual: 5 mg (38 UI), 2 a 3x por semana, pela manhã ou pré-treino. Frasco de 40 mg — pureza 99% HPLC.",
+    faq: [
+      { q: "O que são mitocôndrias e por que importa ativá-las?", a: "São as estruturas que geram energia dentro de cada célula. Quando funcionam bem, você tem mais disposição, queima gordura melhor e envelhece mais devagar." },
+      { q: "Com que frequência é usado?", a: "Geralmente 2 a 3 vezes por semana, pela manhã ou antes do treino." },
+      { q: "Para quem é mais indicado?", a: "Para quem sente queda de energia, quer melhorar performance ou está em protocolo de composição corporal." }
+    ],
+    reviews: [
+      { text: "Meu pós-almoço de sono acabou. Energia o dia todo!", author: "Patrícia L.", stars: 5 },
+      { text: "Voltei a treinar com a mesma disposição dos 20 anos.", author: "Gustavo H.", stars: 5 }
+    ]
+  },
+  {
+    id: 5,
+    name: "Ipamorelin",
+    sub: "10 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a29-IPAMORELINA.jpeg",
+    discount: "",
+    desc: "Secretagogo de GH considerado um dos mais seguros e precisos. Estimula o corpo a liberar GH sem causar efeito rebote ou supressão natural. Favorito nos protocolos de longevidade e qualidade de vida — especialmente pela melhora expressiva na qualidade do sono.",
+    benefits: [
+      "Estimula GH de forma fisiológica, sem exageros",
+      "Melhora muito a qualidade do sono",
+      "Auxilia na recuperação geral do corpo",
+      "Suporte para composição corporal no longo prazo"
+    ],
+    longDesc: "A Ipamorelin é um secretagogo seletivo de GH que age nos receptores GHSR sem elevar cortisol ou prolactina — diferencial importante em relação a outros peptídeos. Dose usual: 200 a 300 mcg, 1 a 2x ao dia, em jejum ou antes de dormir. Frasco de 10 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Qual a diferença do Ipamorelin sozinho vs combinado com CJC-1295?", a: "Sozinho já funciona bem. Com CJC-1295 o pico de GH é maior e mais potente. Depende do objetivo e do protocolo prescrito." },
+      { q: "Por que tomar antes de dormir?", a: "O GH é liberado naturalmente durante o sono. O Ipamorelin potencializa esse processo sem interferir no ciclo natural." },
+      { q: "Quanto tempo de uso?", a: "Geralmente 8 a 12 semanas, com avaliação médica periódica." }
+    ],
+    reviews: [
+      { text: "Acordo realmente descansada depois de anos. Mudou minha vida.", author: "Camila D.", stars: 5 },
+      { text: "Meu relógio de sono regulou em uma semana.", author: "Thiago N.", stars: 5 }
+    ]
+  },
+  {
+    id: 6,
+    name: "BPC-157",
+    sub: "10 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a11-BPC-157.jpeg",
+    discount: "",
+    desc: "Dores articulares, tendinites, intestino inflamado, lesões que não cicatrizam? O BPC-157 é um dos peptídeos mais versáteis: age no reparo físico de músculos e tendões E na saúde do intestino ao mesmo tempo. Anti-inflamatório natural e muito valorizado em protocolos de recuperação completa.",
+    benefits: [
+      "Repara tecidos — músculos, tendões e ligamentos",
+      "Cuida do intestino e melhora sintomas digestivos",
+      "Age como anti-inflamatório natural",
+      "Versátil: serve tanto para performance quanto para saúde"
+    ],
+    longDesc: "O BPC-157 (Body Protection Compound) é um pentadecapeptídeo derivado de proteínas gástricas que estimula a síntese de colágeno, angiogênese e regeneração tecidual. Também modula a barreira intestinal e reduz inflamação sistêmica. Dose usual: 250 a 500 mcg, 1 a 2x ao dia, em jejum ou antes de dormir. Frasco de 10 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Por que ele é tão popular?", a: "Porque age em várias frentes ao mesmo tempo: recuperação física, saúde intestinal e inflamação. Poucos peptídeos têm essa versatilidade." },
+      { q: "Funciona para problemas de intestino mesmo?", a: "Sim, é amplamente usado em protocolos de saúde intestinal, incluindo permeabilidade intestinal e inflamação gastrointestinal." },
+      { q: "Pode ser combinado com TB-500?", a: "Exatamente — essa combinação é muito comum em protocolos de recuperação (e está na composição do Glow Blend)." }
+    ],
+    reviews: [
+      { text: "Meu joelho voltou a funcionar depois de 2 meses de uso.", author: "André S.", stars: 5 },
+      { text: "Tendinite no ombro melhorou drasticamente.", author: "Marcos V.", stars: 4 }
+    ]
+  },
+  {
+    id: 7,
+    name: "TB-500",
+    sub: "10 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a3e-TB-500.jpeg",
+    discount: "",
+    desc: "O TB-500 é um dos peptídeos mais potentes para regeneração e reparo acelerado de tecidos. Age na angiogênese e na mobilização de células-tronco para áreas lesionadas, promovendo recuperação mais rápida de lesões musculares, tendinites e cirurgias. Essencial para atletas, praticantes de atividade física intensa e qualquer pessoa que precise acelerar a recuperação do corpo.",
+    benefits: [
+      "Acelera a regeneração de lesões musculares e articulares",
+      "Estimula a formação de novos vasos sanguíneos (angiogênese)",
+      "Reduz inflamação e fibrose em tecidos danificados",
+      "Recuperação pós-cirúrgica e pós-traumática mais rápida"
+    ],
+    longDesc: "O TB-500 (Thymosin Beta-4) é um peptídeo que regula a actina e promove migração celular, angiogênese e regeneração tecidual. Utilizado em protocolos de recuperação esportiva e pós-operatória. Dose usual: 2,5 a 5 mg, 2 a 3x por semana. Frasco de 10 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Qual a diferença entre TB-500 e BPC-157?", a: "O TB-500 foca mais na angiogênese e migração celular; o BPC-157 tem ação mais forte no reparo de tecido conjuntivo e intestinal. Juntos são uma combinação poderosa." },
+      { q: "Pode ser usado em lesões crônicas?", a: "Sim, é especialmente indicado para lesões que não cicatrizam bem sozinhas." },
+      { q: "Quanto tempo até sentir melhora?", a: "Lesões agudas respondem em 1 a 2 semanas. Crônicas podem levar de 4 a 8 semanas." }
+    ],
+    reviews: [
+      { text: "Operei o menisco e a recuperação foi impressionantemente rápida.", author: "Eduardo G.", stars: 5 },
+      { text: "Meu personal indicou e minha recuperação entre treinos melhorou muito.", author: "Larissa M.", stars: 5 }
+    ]
+  },
+  {
+    id: 8,
+    name: "GHK-Cu",
+    sub: "100 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a1o-GHK-Cu.jpeg",
+    discount: "Só 8",
+    desc: "Pele cansada, cabelo opaco, unhas fracas? O GHK-Cu é o peptídeo bioativo que restaura a matriz extracelular da pele de dentro para fora. Estimula colágeno, elastina e glicosaminoglicanos — o resultado é uma pele mais firme, viçosa e com aquele glow natural que skincare nenhum consegue dar. Beleza que vem da bioquímica, não da maquiagem.",
+    benefits: [
+      "Estimula a produção de colágeno e elastina naturalmente",
+      "Reduz rugas, linhas finas e flacidez",
+      "Fortalece cabelos e unhas",
+      "Uniformiza o tom da pele e reduz manchas"
+    ],
+    longDesc: "O GHK-Cu é um peptídeo de cobre naturalmente presente no plasma humano, mas que diminui com a idade. Age como agente remodelador da matriz extracelular, estimulando fibroblastos a produzirem colágeno tipo I, III e elastina. Também possui ação antioxidante e anti-inflamatória. Dose usual: 1 a 2 mg/dia ou em dias alternados. Frasco de 100 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Precisa aplicar no rosto?", a: "Não, a aplicação é subcutânea sistêmica, como os demais peptídeos. O efeito atinge a pele de dentro para fora." },
+      { q: "Grávidas podem usar?", a: "Não. Consulte seu médico antes de iniciar qualquer protocolo." },
+      { q: "Resultados em quanto tempo?", a: "Melhora na textura da pele em 2 a 3 semanas. Colágeno e firmeza em 8 a 12 semanas." }
+    ],
+    reviews: [
+      { text: "Minha pele está com um glow que nunca tive. Amo!", author: "Isabela T.", stars: 5 },
+      { text: "As pessoas perguntam que ácido eu uso na pele. É o GHK-Cu!", author: "Renata C.", stars: 5 }
+    ]
+  },
+  {
+    id: 9,
+    name: "KPV",
+    sub: "5 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a2i-KPV-_LYS-PRO-VAL_.jpeg",
+    discount: "",
+    desc: "Intestino inflamado, gases, desconforto após comer, síndrome do intestino irritável? O KPV (Lys-Pro-Val) é um peptídeo com potente ação anti-inflamatória intestinal. Restaura a barreira intestinal, reduz a permeabilidade (leaky gut) e acalma o sistema digestivo. Seu segundo cérebro vai finalmente ficar em paz.",
+    benefits: [
+      "Restaura a barreira intestinal e reduz permeabilidade (leaky gut)",
+      "Ação anti-inflamatória direta no trato gastrointestinal",
+      "Alivia sintomas de SII e desconfortos digestivos",
+      "Melhora a absorção de nutrientes"
+    ],
+    longDesc: "O KPV (Lys-Pro-Val) é um tripéptido derivado do colágeno com potente ação anti-inflamatória. Atua modulando a resposta imune intestinal, reduzindo a translocação bacteriana e a inflamação sistêmica de baixo grau. Essencial para protocolos de saúde intestinal e modulação imunológica. Dose usual: 500 mcg a 1 mg/dia. Frasco de 5 mg — uso subcutâneo ou oral, pureza 99% HPLC.",
+    faq: [
+      { q: "Ajuda com gases e distensão abdominal?", a: "Sim, ao reduzir a inflamação intestinal, melhora significativamente o desconforto abdominal." },
+      { q: "Precisa de dieta junto?", a: "Recomendamos acompanhamento nutricional para melhores resultados." },
+      { q: "Quanto tempo de uso?", a: "Geralmente 30 a 60 dias para restauração da barreira intestinal." }
+    ],
+    reviews: [
+      { text: "Finalmente um intestino feliz depois de anos de sofrimento.", author: "Paula M.", stars: 5 },
+      { text: "Síndrome do intestino irritável sob controle. Vida nova!", author: "João P.", stars: 5 }
+    ]
+  },
+  {
+    id: 10,
+    name: "5-Amino-1MQ",
+    sub: "50 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a0q-5-AMINO-1MQ.jpeg",
+    discount: "",
+    desc: "O 5-Amino-1MQ é um peptídeo que atua no metabolismo energético celular. Age inibindo a enzima NNMT (Nicotinamida N-Metiltransferase), o que aumenta a disponibilidade de NAD+ nas células. Resultado: mais energia, metabolismo acelerado e suporte inteligente ao emagrecimento. Ideal para quem quer otimizar a bioquímica do corpo a nível celular.",
+    benefits: [
+      "Inibe a NNMT e aumenta os níveis de NAD+ celular",
+      "Acelera o metabolismo e melhora a queima de gordura",
+      "Aumenta a energia e disposição no dia a dia",
+      "Suporta protocolos de emagrecimento e performance"
+    ],
+    longDesc: "O 5-Amino-1MQ é um inibidor da NNMT (Nicotinamida N-Metiltransferase), enzima que regula o gasto energético em adipócitos e hepatócitos. Ao inibir a NNMT, há maior disponibilidade de NAD+ e aumento do gasto calórico basal. Dose usual: 1 mg/kg de peso corporal, 1x ao dia. Frasco de 50 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Como ele age no metabolismo?", a: "Ele inibe uma enzima (NNMT) que 'gasta' as reservas de NAD+ do corpo. Com mais NAD+ disponível, seu metabolismo funciona melhor." },
+      { q: "Pode ser combinado com a Tirzepatida?", a: "Sim, são complementares — a Tirzepatida reduz o apetite, o 5-Amino-1MQ acelera o metabolismo." },
+      { q: "Quanto tempo para ver resultados?", a: "Melhora energética em 1 a 2 semanas. Resultados metabólicos mais expressivos em 4 a 8 semanas." }
+    ],
+    reviews: [
+      { text: "Minhas amigas acham que fiz procedimento estético. É só o peptídeo!", author: "Ana Paula M.", stars: 5 },
+      { text: "Parece que minha pele voltou aos 25 anos. Incrível.", author: "Daniela S.", stars: 5 }
+    ]
+  },
+  {
+    id: 11,
+    name: "PT-141 (Bremelanotide)",
+    sub: "10 mg — Peptídeo Sintético Injetável",
+    image: "mplt8a33-PT-141_BREMELANOTIDE_.jpeg",
+    discount: "Só 1",
+    desc: "Para quem quer acender o pavio na hora certa. O PT-141 estimula a libido e o desejo sexual diretamente no sistema nervoso central — sem depender de hormônios sexuais. Age ativando os receptores de melanocortina, responsáveis pelo despertar do desejo. Resultado: mais tesão, mais sensibilidade, mais presença no momento.",
+    benefits: [
+      "Aumenta a libido e o desejo sexual de forma direta",
+      "Atua no sistema nervoso central, sem depender de testosterona",
+      "Melhora a sensibilidade e a resposta ao estímulo",
+      "Efeito rápido: age em horas, não em semanas"
+    ],
+    longDesc: "O PT-141 (Bremelanotide) é um análogo da melanocortina que ativa os receptores MC3R e MC4R no sistema nervoso central, desencadeando a resposta de desejo sexual. Diferente de outros estimulantes sexuais, não age na circulação ou nos hormônios — age diretamente no cérebro. Dose usual: 0,75 a 1 mg, 45 a 60 minutos antes da atividade sexual. Frasco de 10 mg — uso subcutâneo, pureza 99% HPLC.",
+    faq: [
+      { q: "Funciona como um 'estimulante'?", a: "Não é um estimulante químico. Age na via neurológica do desejo, ativando os receptores naturais de melanocortina do cérebro." },
+      { q: "Funciona em mulheres também?", a: "Sim, foi originalmente estudado para disfunção sexual feminina e tem ótimos resultados em ambos os sexos." },
+      { q: "Quanto tempo dura o efeito?", a: "O efeito dura cerca de 6 a 12 horas após a aplicação." }
+    ],
+    reviews: [
+      { text: "Voltei a ter disposição como aos 20 anos. Minha parceira adorou!", author: "Fernando L.", stars: 5 },
+      { text: "Diferença gritante na libido na primeira semana.", author: "Ricardo S.", stars: 5 }
+    ]
+  }
+];
+
+var faqDefault = [
+  { q: "Como armazenar os peptídeos?", a: "Conservar em geladeira (2 a 8°C) após reconstituição. Não congelar." },
+  { q: "Qual a forma de aplicação?", a: "Subcutânea, com seringas de insulina. Alternar locais de aplicação." },
+  { q: "Preciso de prescrição médica?", a: "Sim, todos os peptídeos requerem avaliação e prescrição médica." },
+  { q: "Quanto tempo dura um frasco?", a: "Depende da dose, mas em média 10 a 20 dias por frasco." }
+];
+
+var reviewsDefault = [
+  { text: "Produtos de altíssima qualidade. Já estou no terceiro ciclo e os resultados são reais.", author: "Lucas M.", stars: 5 },
+  { text: "Atendimento excelente e entrega rápida. Recomendo!", author: "Amanda S.", stars: 5 },
+  { text: "Comecei com dúvidas, mas o suporte tirou todas. Resultados aparecendo!", author: "Pedro H.", stars: 4 }
+];
+
+function getProductById(id) {
+  return products.find(function(p) { return p.id === parseInt(id); });
+}
+
+function renderProduct(productId) {
+  var product = getProductById(productId);
+  if (!product) { window.location.href = 'index.html'; return; }
+
+  document.getElementById('breadcrumbName').textContent = product.name;
+  document.getElementById('productName').textContent = product.name;
+  document.getElementById('productSub').textContent = product.sub;
+  var imgEl = document.getElementById('productImage');
+  imgEl.src = product.image;
+  imgEl.alt = product.name;
+  imgEl.onerror = function() {
+    this.style.display = 'none';
+    document.getElementById('productGallery').style.background = 'linear-gradient(135deg, #e0e7ff, #f0f4ff)';
+    var fallback = document.createElement('div');
+    fallback.style.cssText = 'font-size:48px;color:#21adce;opacity:0.4;';
+    fallback.innerHTML = '<i class="fas fa-flask"></i>';
+    this.parentNode.insertBefore(fallback, this);
+  };
+  imgEl.onload = function() { this.style.display = 'block'; };
+  var badge = document.getElementById('productBadge');
+  if (product.discount) {
+    badge.querySelector('.queima-number').textContent = product.discount;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+  document.getElementById('productDesc').textContent = product.desc;
+  document.getElementById('productSku').textContent = 'SKU: PEP-' + String(product.id).padStart(4, '0');
+
+  var ul = document.getElementById('benefitsList');
+  ul.innerHTML = '';
+  product.benefits.forEach(function(b) {
+    var li = document.createElement('li');
+    li.textContent = b;
+    ul.appendChild(li);
+  });
+
+  document.getElementById('tabDescContent').innerHTML = '<p>' + (product.longDesc || product.desc) + '</p>';
+
+  var faqDiv = document.getElementById('faqContent');
+  faqDiv.innerHTML = '';
+  var faqs = product.faq && product.faq.length ? product.faq : faqDefault;
+  faqs.forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'faq-item';
+    div.innerHTML = '<h4>' + item.q + '</h4><p>' + item.a + '</p>';
+    faqDiv.appendChild(div);
+  });
+
+  var reviewsDiv = document.getElementById('reviewsContent');
+  reviewsDiv.innerHTML = '';
+  var revs = product.reviews && product.reviews.length ? product.reviews : reviewsDefault;
+  revs.forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'testimonial-card';
+    var starsHtml = '';
+    for (var i = 0; i < 5; i++) {
+      starsHtml += i < item.stars ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+    }
+    div.innerHTML = '<div class="stars">' + starsHtml + '</div><p>"' + item.text + '"</p><div class="author">— ' + item.author + '</div>';
+    reviewsDiv.appendChild(div);
+  });
+
+  var relatedGrid = document.getElementById('relatedGrid');
+  relatedGrid.innerHTML = '';
+  var others = products.filter(function(p) { return p.id !== product.id; });
+  var shuffled = others.sort(function() { return 0.5 - Math.random(); }).slice(0, 4);
+  shuffled.forEach(function(p) {
+    var div = document.createElement('div');
+    div.className = 'related-card';
+    div.onclick = function() { renderProduct(p.id); history.replaceState(null, '', '?id=' + p.id); window.scrollTo(0, 0); };
+    div.innerHTML = '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy"><div class="related-card-body"><h4>' + p.name + '</h4></div>';
+    relatedGrid.appendChild(div);
+  });
+
+  document.title = product.name;
+}
+
+// ===== SEARCH =====
+(function() {
+  var searchContainer = document.querySelector('.header-search');
+  if (!searchContainer) return;
+  var input = searchContainer.querySelector('input');
+  var results = document.createElement('div');
+  results.className = 'search-results';
+  searchContainer.appendChild(results);
+
+  function buildSearchItem(p) {
+    var a = document.createElement('a');
+    a.className = 'search-item';
+    a.href = 'produto.html?id=' + p.id;
+    a.innerHTML = '<img src="' + p.image + '" alt=""><span>' + p.name + '</span>';
+    return a;
+  }
+
+  input.addEventListener('input', function() {
+    var term = this.value.trim().toLowerCase();
+    results.innerHTML = '';
+    if (term.length < 2) { results.classList.remove('active'); return; }
+
+    var matches = products.filter(function(p) { return p.name.toLowerCase().includes(term); });
+
+    if (matches.length > 0) {
+      results.classList.add('active');
+      matches.slice(0, 5).forEach(function(p) { results.appendChild(buildSearchItem(p)); });
+    } else {
+      results.classList.add('active');
+      var noMatch = document.createElement('div');
+      noMatch.className = 'search-no-match';
+      noMatch.innerHTML = 'Nenhum peptídeo encontrado para "<strong>' + this.value + '"</strong>';
+      results.appendChild(noMatch);
+      var sugg = document.createElement('div');
+      sugg.className = 'search-suggestion';
+      sugg.textContent = 'Confira estes peptídeos similares:';
+      results.appendChild(sugg);
+      var shuffled = products.sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
+      shuffled.forEach(function(p) { results.appendChild(buildSearchItem(p)); });
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.header-search')) results.classList.remove('active');
+  });
+})();
+
+// ===== INIT =====
+(function() {
+  try {
+    updateCartBadge();
+
+    function getUrlParam(name) {
+      var match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+      return match ? decodeURIComponent(match[1]) : null;
+    }
+
+    var productId = getUrlParam('id');
+    if (!productId) { window.location.href = 'index.html'; return; }
+    renderProduct(productId);
+
+    // Buy button
+    var buyBtn = document.querySelector('.btn-buy');
+    if (buyBtn) {
+      buyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('productName').textContent;
+        addToCart(name, productId);
+      });
+    }
+
+    // Tabs
+    var tabs = document.querySelectorAll('.tab-nav button');
+    tabs.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tabs.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+        document.getElementById('tab' + btn.dataset.tab.charAt(0).toUpperCase() + btn.dataset.tab.slice(1)).classList.add('active');
+      });
+    });
+
+    // Newsletter
+    var nlsForm = document.querySelector('.footer-newsletter form');
+    if (nlsForm) {
+      nlsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = nlsForm.querySelector('input').value;
+        if (email) { showToast('Inscrição realizada com sucesso!'); nlsForm.querySelector('input').value = ''; }
+      });
+    }
+  } catch(e) {
+    console.error('Erro na inicializacao:', e);
+  }
+})();
+
+// ===== CONTACT FORM =====
+function submitContact(e) {
+  e.preventDefault();
+  var name = document.getElementById('contactName').value.trim();
+  var email = document.getElementById('contactEmail').value.trim();
+  var msg = document.getElementById('contactMsg').value.trim();
+  if (!name || !email || !msg) { showToast('Preencha todos os campos obrigatórios'); return; }
+  var whatsappUrl = 'https://wa.me/5511999990000?text=' + encodeURIComponent('Olá! Me chamo ' + name + '. ' + msg);
+  window.open(whatsappUrl, '_blank');
+  showToast('Redirecionando para WhatsApp...');
+}
+</script>
+
+</body>
+</html>
