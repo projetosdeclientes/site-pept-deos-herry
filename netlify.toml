@@ -35,3 +35,58 @@
   for = "*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/tirzepatida"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/tesamorelin"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/cjc-1295-ipamorelin"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/mots-c"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/ipamorelin"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/bpc-157"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/tb-500"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/ghk-cu"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/kpv"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/5-amino-1mq"
+  to = "/produto.html"
+  status = 200
+
+[[redirects]]
+  from = "/pt-141"
+  to = "/produto.html"
+  status = 200

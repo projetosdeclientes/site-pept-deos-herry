@@ -1003,6 +1003,7 @@ function showToast(msg) {
 var products = [
   {
     id: 1,
+    slug: "tirzepatida",
     name: "Tirzepatida",
     sub: "60 mg — Peptídeo Sintético Injetável",
     image: "mplt8a41-TIRZEPATIDA.jpeg",
@@ -1028,6 +1029,7 @@ var products = [
   },
   {
     id: 2,
+    slug: "tesamorelin",
     name: "Tesamorelin",
     sub: "15 mg — Peptídeo Sintético Injetável",
     image: "mplt8a3o-TESAMORELIN.jpeg",
@@ -1053,6 +1055,7 @@ var products = [
   },
   {
     id: 3,
+    slug: "cjc-1295-ipamorelin",
     name: "CJC-1295 + Ipamorelin",
     sub: "5 mg + 5 mg — Peptídeos Sintéticos Injetáveis",
     image: "mplt8a1d-CJC-1295_IPAMORELINA.jpeg",
@@ -1077,6 +1080,7 @@ var products = [
   },
   {
     id: 4,
+    slug: "mots-c",
     name: "MOTS-C",
     sub: "40 mg — Mitochondrial-Derived Peptide",
     image: "mplt8a2s-MOTS-C.jpeg",
@@ -1101,6 +1105,7 @@ var products = [
   },
   {
     id: 5,
+    slug: "ipamorelin",
     name: "Ipamorelin",
     sub: "10 mg — Peptídeo Sintético Injetável",
     image: "mplt8a29-IPAMORELINA.jpeg",
@@ -1125,6 +1130,7 @@ var products = [
   },
   {
     id: 6,
+    slug: "bpc-157",
     name: "BPC-157",
     sub: "10 mg — Peptídeo Sintético Injetável",
     image: "mplt8a11-BPC-157.jpeg",
@@ -1149,6 +1155,7 @@ var products = [
   },
   {
     id: 7,
+    slug: "tb-500",
     name: "TB-500",
     sub: "10 mg — Peptídeo Sintético Injetável",
     image: "mplt8a3e-TB-500.jpeg",
@@ -1173,6 +1180,7 @@ var products = [
   },
   {
     id: 8,
+    slug: "ghk-cu",
     name: "GHK-Cu",
     sub: "100 mg — Peptídeo Sintético Injetável",
     image: "mplt8a1o-GHK-Cu.jpeg",
@@ -1197,6 +1205,7 @@ var products = [
   },
   {
     id: 9,
+    slug: "kpv",
     name: "KPV",
     sub: "5 mg — Peptídeo Sintético Injetável",
     image: "mplt8a2i-KPV-_LYS-PRO-VAL_.jpeg",
@@ -1221,6 +1230,7 @@ var products = [
   },
   {
     id: 10,
+    slug: "5-amino-1mq",
     name: "5-Amino-1MQ",
     sub: "50 mg — Peptídeo Sintético Injetável",
     image: "mplt8a0q-5-AMINO-1MQ.jpeg",
@@ -1245,6 +1255,7 @@ var products = [
   },
   {
     id: 11,
+    slug: "pt-141",
     name: "PT-141 (Bremelanotide)",
     sub: "10 mg — Peptídeo Sintético Injetável",
     image: "mplt8a33-PT-141_BREMELANOTIDE_.jpeg",
@@ -1284,6 +1295,10 @@ var reviewsDefault = [
 
 function getProductById(id) {
   return products.find(function(p) { return p.id === parseInt(id); });
+}
+
+function getProductBySlug(slug) {
+  return products.find(function(p) { return p.slug === slug; });
 }
 
 function renderProduct(productId) {
@@ -1356,7 +1371,7 @@ function renderProduct(productId) {
   shuffled.forEach(function(p) {
     var div = document.createElement('div');
     div.className = 'related-card';
-    div.onclick = function() { renderProduct(p.id); history.replaceState(null, '', '?id=' + p.id); window.scrollTo(0, 0); };
+    div.onclick = function() { renderProduct(p.id); history.replaceState(null, '', '/' + p.slug); window.scrollTo(0, 0); };
     div.innerHTML = '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy"><div class="related-card-body"><h4>' + p.name + '</h4></div>';
     relatedGrid.appendChild(div);
   });
@@ -1376,7 +1391,7 @@ function renderProduct(productId) {
   function buildSearchItem(p) {
     var a = document.createElement('a');
     a.className = 'search-item';
-    a.href = 'produto.html?id=' + p.id;
+    a.href = '/' + p.slug;
     a.innerHTML = '<img src="' + p.image + '" alt=""><span>' + p.name + '</span>';
     return a;
   }
@@ -1419,12 +1434,27 @@ function getUrlParam(name) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+function getProductFromPath() {
+  var path = window.location.pathname.replace(/\/+$/, '').replace(/\.html$/i, '');
+  var last = path.split('/').pop();
+  if (last && last !== 'produto' && last !== '') {
+    return getProductBySlug(last);
+  }
+  return null;
+}
+
 function initProductPage() {
   try {
     updateCartBadge();
     var productId = getUrlParam('id');
-    if (!productId) { window.location.href = 'index.html'; return; }
-    renderProduct(productId);
+    var product = null;
+    if (productId) {
+      product = getProductById(productId);
+    } else {
+      product = getProductFromPath();
+    }
+    if (!product) { window.location.href = 'index.html'; return; }
+    renderProduct(product.id);
 
     var buyBtn = document.querySelector('.btn-buy');
     if (buyBtn) {
