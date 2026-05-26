@@ -1409,13 +1409,13 @@ function renderProduct(productId) {
 
 // ===== INIT =====
 (function() {
-  try {
-    updateCartBadge();
+  function getUrlParam(name) {
+    var match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
 
-    function getUrlParam(name) {
-      var match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
-      return match ? decodeURIComponent(match[1]) : null;
-    }
+  function initPage() {
+    updateCartBadge();
 
     var productId = getUrlParam('id');
     if (!productId) { window.location.href = 'index.html'; return; }
@@ -1451,8 +1451,12 @@ function renderProduct(productId) {
         if (email) { showToast('Inscrição realizada com sucesso!'); nlsForm.querySelector('input').value = ''; }
       });
     }
-  } catch(e) {
-    console.error('Erro na inicializacao:', e);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+  } else {
+    initPage();
   }
 })();
 
